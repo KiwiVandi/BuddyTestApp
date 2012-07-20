@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1138.47">
+  <style type="text/css">
+  </style>
+</head>
+<body>
+<h1>Connecting Buddy with Facebook</h1>
+
+<p>It's possible to let your application's users connect their Facebook account to their activities on Buddy. This tutorial sample will show how to use the Facebook credentials to create an account on Buddy and login into it, making it a seamless experience from the users' point of view: we refer to this connection as a "binding" between Facebook and Buddy accounts.</p>
+
+<h2>Registering your application</h2>
+
+<p>To start, we'll need to register your application on both Buddy and Facebook.</p>
+
+<ol>
+<li><p>Get to the <a href="https://dev.buddy.com/">Buddy Developer Dashboard</a> and create your application: you'll need the Application Name and Application Password from the <i>Keys</i> popup</p></li>
+<li><p>Same for <a href="https://developers.facebook.com/">Facebook Developers</a>, create a new app and take note of the Application ID (it will be a long number, like "123456789"): to follow this sample, you don't need to enter more than the basic application info.</p><center><img src="FBScreens/FacebookApp.png" alt="Facebook Application ID" width="773" height="611"></center></li>
+<li>You don't need to download the Facebook SDK, as a copy modified to work with iOS 5 is included in the tutorial</li>
+<li>You can find more details about the Facebook app registration and available features for iOS apps on the <a href="http://developers.facebook.com/docs/mobile/ios/build/">Facebook iOS Tutorial</a> page: the sample has already implemented many steps illustrated on that page for you (from 2 to 7)</li>
+</ol>
+
+
+<h2>Configuring the Tutorial</h2>
+
+<p>The sample code requires the keys obtained above, or it won't work. The general workflow behind Facebook authentication is that it is requested via a "trusted" source (either Facebook's own service through Safari or the native iOS app), that in turn returns an <b>access token</b> that will allow your app automatic access until its expiration.</p>
+
+<ol>
+<li><p>Open the <code>BFBViewController+BuddyAPI.m</code> file, and insert the two buddy keys you got at point 1 where required:</p><pre>
+#define kBuddyApplicationName		@"<#Application Name#>"		// Get it from Buddy's site
+#define kBuddyApplicationPassword	@"<#Application password#>"	// Same as above
+</pre></li>
+<li><p>Same with the Facebook Application ID, in the <code>BFBViewController.h</code> file</p><pre>
+#define kFacebookApplicationID		@"<#YourFacebookAppID#>"
+</pre></li>
+<li><p>The same Application ID must be available to the other apps involved in the authentication process  (like Mobile Safari or Facebook native app) to allow callback after authentication</p><p>This is achieved registering a unique URL scheme for your app in the form <i>fb&lt;Application ID&gt;</i> (for example, if your App ID was "123456789", the URL scheme is "fb123456789"), so input this in the URL Type that's already defined in the target of the Xcode project as well.</p>
+<center><img src="FBScreens/ProjectSettings.png" alt="Facebook URL" width="880" height="552"></center></li>
+<li>You're now ready to start using the tutorial!</li>
+</ol>
+
+<h2>General operation</h2>
+
+<p>Most of the code relevant to Buddy's operation is grouped in the <code>BFBViewController+BuddyAPI.m</code> category, please refer to that file for detailed information of the single functions.</p>
+<p>As a general overview, the code uses Facebook login, and creates a Buddy user based on the data returned: the Facebook access token is stored in Buddy's User Metadata, so all that's needed to access both is Buddy's User Token</p>
+<p>Should this be lost, the code also shows how to get to the same Buddy User again starting from a new Facebook login: this way, we've effectively a single sign-on point, and Buddy becomes a transparent service for your app's users</p>
+<p>Last, the tutorial shows how to get to Facebook Photo Albums, get a photo from there to Buddy, use the filters and post the photo back to the user's wall on Facebook</p>
+
+Further references:
+<ul>
+<li><a href="http://buddy.com/documentation.aspx">Buddy Documentation</a></li>
+<li><a href="https://developers.facebook.com/docs/">Facebook Documentation (generic)</a></li>
+<li><a href="https://developers.facebook.com/docs/reference/iossdk/">Facebook for iOS SDK Documentation</a></li>
+</ul>
+
+</body>
+</html>
